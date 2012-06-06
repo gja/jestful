@@ -13,13 +13,13 @@ STATUS_CODES =
   207 : 'multi_status'
   226 : 'im_used'
   300 : 'multiple_choices'
-  301 : 'moved_permanently'
-  302 : 'found'
-  303 : 'see_other'
+  # 301 : 'moved_permanently'
+  # 302 : 'found'
+  # 303 : 'see_other'
   304 : 'not_modified'
   305 : 'use_proxy'
   306 : 'reserved'
-  307 : 'temporary_redirect'
+  # 307 : 'temporary_redirect'
   400 : 'bad_request'
   401 : 'unauthorized'
   402 : 'payment_required'
@@ -61,7 +61,7 @@ class Callback
 
   statusClass: (status) ->
     return 'success' if 200 <= status < 300
-    return 'redirect' if 300 <= status < 400
+    # return 'redirect' if 300 <= status < 400
     return 'failure' if 400 <= status
 
   bestCallback: (status) ->

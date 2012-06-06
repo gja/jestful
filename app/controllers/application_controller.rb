@@ -4,4 +4,12 @@ class ApplicationController < ActionController::Base
   def home
     render :text => :foo, :layout => "application"
   end
+
+  def get
+    render :text => 'success'
+  end
+
+  def redirect
+    redirect_to get_url
+  end
 end
