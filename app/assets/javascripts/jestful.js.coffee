@@ -84,19 +84,17 @@ class Url
     request = new XMLHttpRequest()
     request.open(method, @url)
     request.onreadystatechange = =>
-      this.readyStateChanged(request, options)
+      return unless request.readyState == 4
+      new Callback(options).call(request)
     request.send(data)
 
   get: (options) ->
     this.raw_ajax 'GET', null, options
   
-  readyStateChanged: (request, options) ->
-    return unless request.readyState == 4
-    new Callback(options).call(request)
-
 api = this.Jestful = (this.Jestful || {})
 internal = api.internal = (api.internal || {})
 
 api.Url = Url
+api.get = (url, options) -> new Url(url).get(options)
 
 internal.Callback = Callback
