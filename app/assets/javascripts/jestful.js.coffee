@@ -1,15 +1,17 @@
+STATUS_CODES =
+  200 : 'ok'
+
 class Callback
   constructor: (@options = {}) ->
-  
-  STATUS_CODES:
-    200 : 'ok'
   
   emptyCallback: (request) ->
     console.log("No callback registered for status code: " + request.status )
 
   bestCallback: (status) ->
+    return @options if typeof(@options) == "function"
     return @options[status] if @options[status]
-    return @options[this.STATUS_CODES[status]] if @options[this.STATUS_CODES[status]]
+    return @options[STATUS_CODES[status]] if @options[STATUS_CODES[status]]
+    return @options.success if @options.success && 200 <= status < 300
     return @options.default if @options.default
     this.emptyCallback
 

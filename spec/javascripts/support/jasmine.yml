@@ -1,5 +1,5 @@
 src_files:
-  - **/*.js
+  - '**/*.js'
 
 stylesheets:
   - stylesheets/**/*.css
