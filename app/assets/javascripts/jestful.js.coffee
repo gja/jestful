@@ -1,4 +1,5 @@
 STATUS_CODES =
+  0 : 'cross_domain_security_violation'
   100 : 'continue'
   101 : 'switching_protocols'
   102 : 'processing'
@@ -79,17 +80,19 @@ class Callback
 class Url
   constructor: (@url) ->
   
-  get: (options) ->
+  raw_ajax: (method, data, options) ->
     request = new XMLHttpRequest()
-    request.open('GET', @url)
+    request.open(method, @url)
     request.onreadystatechange = =>
       this.readyStateChanged(request, options)
-    request.send()
+    request.send(data)
+
+  get: (options) ->
+    this.raw_ajax 'GET', null, options
   
   readyStateChanged: (request, options) ->
     return unless request.readyState == 4
     new Callback(options).call(request)
-
 
 api = this.Jestful = (this.Jestful || {})
 internal = api.internal = (api.internal || {})
