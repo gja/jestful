@@ -32,6 +32,18 @@ describe 'Callback', ->
     }
     expect(callback.call(status: 404)).toBe("default")
 
+  it 'does not trigger the success handler for errors', ->
+    callback = new Callback {
+      failure: (x) -> 'failure'
+    }
+    expect(callback.call(status: 404)).toBe("failure")
+
+  it 'can trigger a callback on a redirect', ->
+    callback = new Callback {
+      redirect: (x) -> 'redirect'
+    }
+    expect(callback.call(status: 302)).toBe("redirect")
+
   it 'can be created with a default method', ->
     callback = new Callback (x) -> x.status
     expect(callback.call(status: 404)).toBe(404)
