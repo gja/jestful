@@ -32,22 +32,28 @@ describe 'GETs', ->
     waitsForDefinition => this.response
     runs => expect(this.response).toEqual({foo: "bar"})
 
-  # it 'can pass a get parameter to the server', ->
-  #   new Url("http://localhost:3000/test/return_foo").get {foo: 'bar'}, (response) =>
-  #     this.response = response.body()
-  #   waitsForDefinition => this.response
-  #   runs => expect(this.response).toEqual("bar")
+  describe 'passing parameters to the server', ->
+    it 'can pass a get parameter to the server', ->
+      new Url("http://localhost:3000/test/return_foo").get {foo: 'bar'}, (response) =>
+        this.response = response.body()
+      waitsForDefinition => this.response
+      runs => expect(this.response).toEqual("bar")
+
+    it 'can pass a parameter with a space in it', ->
+      new Url("http://localhost:3000/test/return_foo").get {foo: 'foo bar'}, (response) =>
+        this.response = response.body()
+      waitsForDefinition => this.response
+      runs => expect(this.response).toEqual("foo bar")
 
   describe "static API", ->
     it 'can make a successful GET call', ->
       Jestful.get "http://localhost:3000/test/get", (response) =>
         this.status = response.status
-
       waitsForDefinition => this.status
       runs => expect(this.status).toEqual(200)
 
-    # it 'can pass a get parameter to the server', ->
-    #   Jestful.get "http://localhost:3000/test/return_foo", {foo: 'bar'}, (response) =>
-    #     this.response = response.body()
-    #   waitsForDefinition => this.response
-    #   runs => expect(this.response).toEqual("bar")
+    it 'can pass a get parameter to the server', ->
+      Jestful.get "http://localhost:3000/test/return_foo", {foo: 'bar'}, (response) =>
+        this.response = response.body()
+      waitsForDefinition => this.response
+      runs => expect(this.response).toEqual("bar")

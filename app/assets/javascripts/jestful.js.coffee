@@ -63,10 +63,13 @@ class Url
   constructor: (@url) ->
   
   raw_ajax: (method, url, data, options) ->
-    new HttpRequest().call(extend(options, {method: method, url: @url}), new Callback(options))
+    new HttpRequest().call(extend(options, {method: method, url: url}), new Callback(options))
 
   get: ([data]..., options) ->
-    this.raw_ajax 'GET', @url, null, options
+    query_string = ""
+    query_string = "#{query_string}&#{key}=#{value}" for key, value of data if data
+    url = if query_string then "#{@url}?#{query_string}" else @url
+    this.raw_ajax 'GET', url, null, options
 
 class Response
   constructor: (@request) ->
