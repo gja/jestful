@@ -8,8 +8,8 @@ helpers:
   - helpers/**/*.js
 
 spec_files:
-  - '**/*[sS]pec.js'
+  - 'compiled/spec/**/*[sS]pec.js'
 
 src_dir: spec/javascripts/compiled/src
 
-spec_dir: spec/javascripts/compiled/spec
+spec_dir: spec/javascripts
