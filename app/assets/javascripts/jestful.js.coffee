@@ -77,16 +77,30 @@ class Callback
     bestCallback = this.bestCallback(request.status)
     bestCallback(request)
 
+extendInPlace = (first, second) ->
+  first[key] = value for key, value of second
+  null
+
+extend = (first, second) ->
+  result = {}
+  extendInPlace(result, first)
+  extendInPlace(result, second)
+  result
+
+class HttpRequest
+  call: (request_hash, callback) ->
+    request = new XMLHttpRequest()
+    request.open(request_hash.method, request_hash.url)
+    request.onreadystatechange = =>
+      return unless request.readyState == 4
+      callback.call(request)
+    request.send(request_hash.data)
+
 class Url
   constructor: (@url) ->
   
   raw_ajax: (method, data, options) ->
-    request = new XMLHttpRequest()
-    request.open(method, @url)
-    request.onreadystatechange = =>
-      return unless request.readyState == 4
-      new Callback(options).call(request)
-    request.send(data)
+    new HttpRequest().call(extend(options, {method: method, url: @url}), new Callback(options))
 
   get: (options) ->
     this.raw_ajax 'GET', null, options
@@ -98,3 +112,5 @@ api.Url = Url
 api.get = (url, options) -> new Url(url).get(options)
 
 internal.Callback = Callback
+internal.extend = extend
+internal.extendInPlace = extendInPlace
