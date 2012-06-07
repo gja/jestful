@@ -22,6 +22,6 @@ describe 'GETs', ->
 
   it 'returns the text back', ->
     new Url("http://localhost:3000/test/get").get (response) =>
-      this.response = response.body
+      this.response = response.body()
     waitsForDefinition => this.response
     runs => expect(this.response).toEqual("success")

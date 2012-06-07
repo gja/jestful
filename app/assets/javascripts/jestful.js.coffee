@@ -20,8 +20,8 @@ STATUS_CODES =
 class Callback
   constructor: (@options = {}) ->
   
-  emptyCallback: (request) ->
-    console.log("No callback registered for status code: " + request.status)
+  emptyCallback: (response) ->
+    console.log("No callback registered for status code: " + response.status)
 
   statusClass: (status) ->
     return 'success' if 200 <= status < 300
@@ -36,9 +36,9 @@ class Callback
     return @options.default if @options.default
     this.emptyCallback
 
-  call: (request) ->
-    bestCallback = this.bestCallback(request.status)
-    bestCallback(request)
+  call: (response) ->
+    bestCallback = this.bestCallback(response.status)
+    bestCallback(response)
 
 extendInPlace = (first, second) ->
   first[key] = value for key, value of second
@@ -56,7 +56,7 @@ class HttpRequest
     request.open(request_hash.method, request_hash.url)
     request.onreadystatechange = =>
       return unless request.readyState == 4
-      callback.call(new Response(request.status, request.responseText))
+      callback.call(new Response(request))
     request.send(request_hash.data)
 
 class Url
@@ -69,7 +69,9 @@ class Url
     this.raw_ajax 'GET', null, options
 
 class Response
-  constructor: (@status, @body) ->
+  constructor: (@request) ->
+    @status = @request.status
+  body: -> @request.responseText
   
 api = this.Jestful = (this.Jestful || {})
 internal = api.internal = (api.internal || {})
