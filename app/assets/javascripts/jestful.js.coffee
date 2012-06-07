@@ -59,17 +59,17 @@ class HttpRequest
       callback.call(new Response(request))
     request.send(request_hash.data)
 
+makeHttpRequest = (method, url, data, options) ->
+  new HttpRequest().call(extend(options, {method: method, url: url}), new Callback(options))
+
 class Url
   constructor: (@url) ->
   
-  raw_ajax: (method, url, data, options) ->
-    new HttpRequest().call(extend(options, {method: method, url: url}), new Callback(options))
-
   get: ([data]..., options) ->
     query_string = ""
     query_string = "#{query_string}&#{key}=#{value}" for key, value of data if data
     url = if query_string then "#{@url}?#{query_string}" else @url
-    this.raw_ajax 'GET', url, null, options
+    makeHttpRequest 'GET', url, null, options
 
 class Response
   constructor: (@request) ->
