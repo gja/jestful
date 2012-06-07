@@ -62,11 +62,11 @@ class HttpRequest
 class Url
   constructor: (@url) ->
   
-  raw_ajax: (method, data, options) ->
+  raw_ajax: (method, url, data, options) ->
     new HttpRequest().call(extend(options, {method: method, url: @url}), new Callback(options))
 
-  get: (options) ->
-    this.raw_ajax 'GET', null, options
+  get: ([data]..., options) ->
+    this.raw_ajax 'GET', @url, null, options
 
 class Response
   constructor: (@request) ->
@@ -78,7 +78,7 @@ api = this.Jestful = (this.Jestful || {})
 internal = api.internal = (api.internal || {})
 
 api.Url = Url
-api.get = (url, options) -> new Url(url).get(options)
+api.get = (url, [data]..., options) -> new Url(url).get(data, options)
 
 internal.Callback = Callback
 internal.extend = extend

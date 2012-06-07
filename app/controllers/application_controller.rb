@@ -20,4 +20,8 @@ class ApplicationController < ActionController::Base
   def json
     render :json => {:foo => 'bar'}
   end
+
+  def return_foo
+    render :text => params[:foo]
+  end
 end
