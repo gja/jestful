@@ -56,7 +56,7 @@ class HttpRequest
     request.open(request_hash.method, request_hash.url)
     request.onreadystatechange = =>
       return unless request.readyState == 4
-      callback.call(request)
+      callback.call(new Response(request.status, request.responseText))
     request.send(request_hash.data)
 
 class Url
@@ -67,6 +67,9 @@ class Url
 
   get: (options) ->
     this.raw_ajax 'GET', null, options
+
+class Response
+  constructor: (@status, @body) ->
   
 api = this.Jestful = (this.Jestful || {})
 internal = api.internal = (api.internal || {})
