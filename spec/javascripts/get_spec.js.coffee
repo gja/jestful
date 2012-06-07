@@ -25,3 +25,9 @@ describe 'GETs', ->
       this.response = response.body()
     waitsForDefinition => this.response
     runs => expect(this.response).toEqual("success")
+
+  it 'can fetch a json object', ->
+    new Url("http://localhost:3000/test/json.json").get (response) =>
+      this.response = response.jsonBody()
+    waitsForDefinition => this.response
+    runs => expect(this.response).toEqual({foo: "bar"})

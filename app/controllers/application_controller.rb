@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
   def not_found
     head :status => :not_found
   end
+
+  def json
+    render :json => {:foo => 'bar'}
+  end
 end

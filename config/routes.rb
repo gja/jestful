@@ -5,5 +5,6 @@ Jestful::Application.routes.draw do
     get :get
     get :redirect
     get :not_found
+    get :json
   end
 end
