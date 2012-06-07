@@ -6,10 +6,14 @@ class ApplicationController < ActionController::Base
   end
 
   def get
-    render :text => 'success'
+    render :text => "success"
   end
 
   def redirect
     redirect_to get_url
+  end
+
+  def not_found
+    head :status => :not_found
   end
 end

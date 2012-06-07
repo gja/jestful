@@ -9,8 +9,21 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+class MakeAllRequestsCrossDomain
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    @app.call(env).tap do |_, headers, _|
+      headers['Access-Control-Allow-Origin'] = "*"
+    end
+  end
+end
+
 module Jestful
   class Application < Rails::Application
+    config.middleware.use MakeAllRequestsCrossDomain
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
