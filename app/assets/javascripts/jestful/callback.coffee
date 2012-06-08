@@ -17,24 +17,24 @@ STATUS_CODES =
   503 : 'service_unavailable'
   504 : 'gateway_timeout'
 
+emptyCallback: (response) ->
+  console.log("No callback registered for status code: " + response.status)
+
+statusClass: (status) ->
+  return 'success' if 200 <= status < 300
+  return 'failure' if 400 <= status
+
 class Callback
   constructor: (@options = {}) ->
-
-  emptyCallback: (response) ->
-    console.log("No callback registered for status code: " + response.status)
-
-  statusClass: (status) ->
-    return 'success' if 200 <= status < 300
-    return 'failure' if 400 <= status
 
   bestCallback: (status) ->
     return @options if typeof(@options) == "function"
     return @options[status] if @options[status]
     return @options[STATUS_CODES[status]] if @options[STATUS_CODES[status]]
-    status_class = this.statusClass(status)
+    status_class = statusClass(status)
     return @options[status_class] if @options[status_class]
     return @options.default if @options.default
-    this.emptyCallback
+    emptyCallback
 
   call: (response) ->
     bestCallback = this.bestCallback(response.status)
