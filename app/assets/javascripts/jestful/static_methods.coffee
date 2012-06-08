@@ -1,0 +1,1 @@
+api.get = (url, [data]..., options) -> new Url(url).get(data, options)
