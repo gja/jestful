@@ -17,10 +17,10 @@ STATUS_CODES =
   503 : 'service_unavailable'
   504 : 'gateway_timeout'
 
-emptyCallback: (response) ->
+emptyCallback = (response) ->
   console.log("No callback registered for status code: " + response.status)
 
-statusClass: (status) ->
+statusClass = (status) ->
   return 'success' if 200 <= status < 300
   return 'failure' if 400 <= status
 

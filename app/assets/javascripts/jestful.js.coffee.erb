@@ -2,7 +2,7 @@ api = this.Jestful = {}
 internal = api.internal = {}
 
 <% Dir.glob(File.expand_path('../jestful/**/*.coffee', __FILE__)).each do |file| %>
-### <%= file %> ###
+### <%= file %> at <%= Time.now %> ###
 <%= File.read(file) %>
 
 <% end %>
