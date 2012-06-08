@@ -1,5 +1,5 @@
-api = this.Jestful = (this.Jestful || {})
-internal = api.internal = (api.internal || {})
+api = this.Jestful = {}
+internal = api.internal = {}
 
 <% Dir.glob(File.expand_path('../jestful/**/*.coffee', __FILE__)).each do |file| %>
 ### <%= file %> ###
